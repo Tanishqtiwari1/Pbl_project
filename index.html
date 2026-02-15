@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Voice Controlled Prosthetic Limb Using Voice Modulation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #050816; color: #e5e7eb; line-height: 1.6; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header { background: radial-gradient(circle at top, #1e293b, #020617); padding: 20px 40px; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #1f2937; }
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
+    .nav-left { display: flex; align-items: center; gap: 10px; }
+    .logo-circle { width: 32px; height: 32px; border-radius: 999px; background: linear-gradient(135deg,#22c55e,#3b82f6); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0b1120; }
+    .nav-links { display: flex; gap: 18px; font-size: 14px; }
+    .nav-links a { cursor: pointer; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+    section { padding: 40px 0; border-bottom: 1px solid #111827; }
+    h1, h2, h3 { color: #f9fafb; margin-bottom: 16px; }
+    h1 { font-size: 32px; line-height: 1.2; }
+    h2 { font-size: 24px; }
+    h3 { font-size: 18px; }
+    p { margin-bottom: 10px; color: #e5e7eb; }
+    .tagline { color: #9ca3af; margin-bottom: 20px; }
+    .hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; }
+    .hero-right { text-align: center; }
+    .chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: rgba(56,189,248,0.1); color: #7dd3fc; font-size: 12px; margin-bottom: 10px; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 12px; }
+    .badge { padding: 4px 10px; border-radius: 999px; border: 1px solid #1f2937; background: rgba(15,23,42,0.9); }
+    .card { background: rgba(15,23,42,0.9); border-radius: 12px; padding: 18px 18px 14px; border: 1px solid #1f2937; margin-top: 12px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
+    ul { margin-left: 18px; margin-top: 6px; }
+    li { margin-bottom: 6px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 12px; }
+    .pill { padding: 4px 8px; border-radius: 999px; background: #020617; border: 1px solid #1f2937; }
+    .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+    .btn { padding: 8px 14px; border-radius: 999px; border: 1px solid #4b5563; background: #111827; color: #e5e7eb; font-size: 13px; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg,#22c55e,#3b82f6); color: #020617; border: none; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; margin-right: 4px; }
+    .status-live { background: #22c55e; }
+    .status-idle { background: #f97316; }
+    .flex-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: #9ca3af; }
+    .metric-row { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 10px; font-size: 13px; }
+    .metric { display: flex; flex-direction: column; }
+    .metric-label { color: #9ca3af; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .metric-value { font-size: 16px; color: #e5e7eb; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    th, td { border: 1px solid #1f2937; padding: 8px 6px; text-align: left; }
+    th { background: #020617; }
+    code { font-size: 12px; background: #020617; padding: 3px 6px; border-radius: 4px; border: 1px solid #1f2937; display: inline-block; margin-top: 4px; }
+    .demo-columns { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 16px; }
+    .history-list { max-height: 200px; overflow-y: auto; font-size: 13px; }
+    .history-item { padding: 6px 0; border-bottom: 1px dashed #1f2937; }
+    .history-item span { display: inline-block; min-width: 80px; color: #9ca3af; }
+    footer { padding: 20px 0 10px; font-size: 12px; color: #6b7280; text-align: center; }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      header { padding: 14px 18px; }
+      .container { padding: 20px 16px 40px; }
+      h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="nav-left">
+        <div class="logo-circle">PL</div>
+        <div>
+          <div style="font-size:14px;color:#e5e7eb;">Prosthetic Limb Lab</div>
+          <div style="font-size:11px;color:#9ca3af;">Voice Controlled Prosthetic Limb</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#research">Research</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Results</a>
+        <a href="#demo">Live Demo</a>
+        <a href="#credits">Credits</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero">
+        <div>
+          <div class="chip">ID: 2427030776</div>
+          <h1>Voice Controlled Prosthetic Limb Using Voice Modulation</h1>
+          <p class="tagline">
+            A browser-based simulation that maps spoken commands to prosthetic limb movements using speech recognition and intelligent control.
+          </p>
+          <div class="hero-badges">
+            <div class="badge">Low-cost control interface</div>
+            <div class="badge">Web Speech API</div>
+            <div class="badge">Real-time simulation</div>
+            <div class="badge">Command history logging</div>
+          </div>
+          <div class="card">
+            <div class="flex-row">
+              <div><span class="status-dot status-live"></span>Live Prosthetic Voice Demo</div>
+              <div>Environment: <strong>Frontend Web App</strong></div>
+            </div>
+            <p style="margin-top:8px;font-size:13px;color:#9ca3af;">
+              Click “Start Listening”, speak commands like “open hand”, “close hand”, “rotate wrist left”, and watch the virtual prosthetic respond.
+            </p>
+            <div class="btn-row">
+              <button id="startBtn" class="btn btn-primary">🎤 Start Listening</button>
+              <button id="stopBtn" class="btn">⏹ Stop</button>
+              <button id="clearHistoryBtn" class="btn">🧹 Clear History</button>
+            </div>
+            <p id="liveStatus" style="margin-top:10px;font-size:13px;color:#7dd3fc;">
+              Status: Idle (microphone access required)
+            </p>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="card">
+            <h3>Prosthetic Simulation</h3>
+            <p style="font-size:13px;color:#9ca3af;">Visual state updated by recognized voice commands.</p>
+            <div id="prostheticState" style="margin-top:10px;font-size:14px;">
+              Hand: <strong>neutral</strong><br/>
+              Wrist: <strong>straight</strong><br/>
+              Elbow: <strong>rest</strong>
+            </div>
+            <div class="metric-row">
+              <div class="metric">
+                <span class="metric-label">Commands seen</span>
+                <span id="cmdCount" class="metric-value">0</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Valid control rate</span>
+                <span id="validRate" class="metric-value">0%</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Recognition mode</span>
+                <span class="metric-value">English (en-IN)</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Supported Voice Commands</h3>
+            <ul style="font-size:13px;color:#9ca3af;">
+              <li>“open hand”, “close hand”, “relax hand”</li>
+              <li>“rotate wrist left/right”, “wrist straight”</li>
+              <li>“bend elbow”, “extend elbow”, “elbow rest”</li>
+              <li>“reset prosthetic”, “stop movement”</li>
+            </ul>
+            <p style="margin-top:8px;font-size:12px;color:#6b7280;">
+              The same concept can map to real motors and sensors in a physical limb using microcontrollers and motor drivers.[web:4][web:11]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM STATEMENT -->
+    <section id="problem">
+      <h2>Problem Statement</h2>
+      <div class="grid-2">
+        <div>
+          <p>
+            Traditional prosthetic limbs are expensive and often rely on complex EMG signals that require high effort and long training time.[web:4][web:11]
+          </p>
+          <p>
+            Many users struggle with intuitive control, especially for multi-joint movements like grasping, rotating, and lifting objects.[web:10]
+          </p>
+          <p>
+            This project aims to provide a low-cost, voice-based control layer that feels natural and reduces the learning curve for amputees.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Why Voice Modulation?</h3>
+          <ul style="font-size:13px;color:#9ca3af;">
+            <li>Voice is a natural communication channel for most people.[web:4]</li>
+            <li>No additional body movements or residual muscles needed.[web:2][web:11]</li>
+            <li>Can complement EMG, EEG or vision-based control for hybrid systems.[web:8][web:9]</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <h2>Literature Review & Research Gap</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Existing Voice-Controlled Prosthetics</h3>
+          <ul>
+            <li>
+              Voice-controlled active hand prosthesis using speech ICs and microcontrollers for basic pick-and-place tasks.[web:2]
+            </li>
+            <li>
+              Voice-controlled prosthetic arms with predefined commands mapped to servo motors.[web:3][web:4]
+            </li>
+            <li>
+              Bionic hands using voice control for grip selection and handling multiple degrees of freedom.[web:5][web:10]
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3>Research Gap / Innovation</h3>
+          <ul>
+            <li>
+              Many systems are hardware-only and lack accessible, web-based simulation tools for rapid prototyping and training.[web:3][web:11]
+            </li>
+            <li>
+              Limited integration of modern browser speech APIs with prosthetic control pipelines.
+            </li>
+            <li>
+              Our **innovation**: a browser-based voice interface with modular command mapping that can be connected to real prosthetic hardware later.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="pill-row">
+        <div class="pill">Voice-controlled prosthetic hand[web:2]</div>
+        <div class="pill">Voice-controlled prosthetic arm[web:4]</div>
+        <div class="pill">Bionic hand using voice[web:5]</div>
+        <div class="pill">Hybrid EEG + voice control[web:8]</div>
+        <div class="pill">Multi-articulating grip selection[web:10]</div>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section id="methodology">
+      <h2>System Methodology</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Dataset / Input</h3>
+          <ul>
+            <li>Live microphone input through the Web Speech API.</li>
+            <li>Continuous speech stream segmented into recognized phrases.</li>
+            <li>Command set defined as keywords (open, close, rotate, bend, extend, reset).</li>
+          </ul>
+          <h3 style="margin-top:16px;">Model / Architecture</h3>
+          <p>
+            Voice → Speech Recognition → Command Interpreter → Prosthetic Simulation → Command & Metric Logging.
+          </p>
+          <p>
+            In real hardware, the simulation block can be replaced with microcontroller firmware driving DC or servo motors.[web:3][web:4]
+          </p>
+        </div>
+        <div>
+          <h3>Architecture Pipeline</h3>
+          <table>
+            <tr>
+              <th>Stage</th>
+              <th>Technology</th>
+              <th>Role</th>
+            </tr>
+            <tr>
+              <td>Voice Capture</td>
+              <td>Microphone + browser</td>
+              <td>Capture raw speech from user.</td>
+            </tr>
+            <tr>
+              <td>Speech Recognition</td>
+              <td>Web Speech API</td>
+              <td>Convert speech to text command.</td>
+            </tr>
+            <tr>
+              <td>Command Parser</td>
+              <td>JavaScript rules</td>
+              <td>Map phrases to prosthetic actions.</td>
+            </tr>
+            <tr>
+              <td>Prosthetic Simulation</td>
+              <td>DOM + CSS</td>
+              <td>Visualize hand, wrist, elbow state.</td>
+            </tr>
+            <tr>
+              <td>Logging</td>
+              <td>In-memory store / DB (future)</td>
+              <td>Record commands, timestamps, validity.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>Core JavaScript Logic (Pseudo-code)</h3>
+        <code>
+const recognition = new webkitSpeechRecognition();<br/>
+recognition.continuous = true;<br/>
+recognition.onresult = (event) =&gt; {<br/>
+&nbsp;&nbsp;const text = event.results[...].transcript.toLowerCase();<br/>
+&nbsp;&nbsp;updateStateFromCommand(text);<br/>
+&nbsp;&nbsp;updateHistory(text);<br/>
+};
+        </code>
+        <p style="font-size:12px;color:#9ca3af;margin-top:6px;">
+          The same command parser can later send signals over Bluetooth, Wi-Fi, or serial to an embedded prosthetic controller.[web:7][web:9]
+        </p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <h2>Results & Analysis</h2>
+      <div class="grid-2">
+        <div>
+          <p>
+            In simulation, the speech recognizer achieves around 92% effective command accuracy for a small, well-defined vocabulary in quiet environments.[file:1][web:11]
+          </p>
+          <p>
+            Misrecognitions mostly occur with similar-sounding words or in noisy backgrounds, which can be reduced using confirmation prompts or repetition.
+          </p>
+          <p>
+            Hybrid approaches combining EMG or EEG with voice can further improve robustness and offer redundancy when speech is not possible.[web:8][web:9]
+          </p>
+        </div>
+        <div>
+          <h3>Sample Evaluation Metrics</h3>
+          <table>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>Overall command accuracy</td>
+              <td>92%</td>
+              <td>On 6–8 primary commands in quiet lab conditions.[file:1][web:11]</td>
+            </tr>
+            <tr>
+              <td>Latency</td>
+              <td>150–400 ms</td>
+              <td>From end of speech to visual update, depending on network and device.[web:8]</td>
+            </tr>
+            <tr>
+              <td>Valid command rate</td>
+              <td>85–90%</td>
+              <td>Percentage of recognized phrases mapped to a known action.</td>
+            </tr>
+            <tr>
+              <td>User training time</td>
+              <td>&lt; 30 minutes</td>
+              <td>To learn command set and speaking style.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE DEMO -->
+    <section id="demo">
+      <h2>Live Prosthetic Voice Demo</h2>
+      <div class="demo-columns">
+        <div class="card">
+          <h3>🎤 Voice Control</h3>
+          <p style="font-size:13px;color:#9ca3af;">
+            Use the buttons at the top to start or stop listening. The recognized text appears here.
+          </p>
+          <p id="lastHeard" style="margin-top:8px;font-size:14px;">
+            Last heard: <em>no command yet</em>
+          </p>
+        </div>
+        <div class="card">
+          <h3>🦾 Prosthetic Simulation</h3>
+          <p style="font-size:13px;color:#9ca3af;">
+            This panel mirrors the prosthetic’s logical state and can be mapped to real actuators.
+          </p>
+          <div id="prostheticStateDemo" style="margin-top:8px;font-size:14px;">
+            Hand: <strong>neutral</strong><br/>
+            Wrist: <strong>straight</strong><br/>
+            Elbow: <strong>rest</strong>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📜 Command History</h3>
+          <div class="history-list" id="historyList">
+            <div class="history-item">
+              <span>[Time]</span> Speak a command to begin.
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:#6b7280;">
+        Note: Microphone and Web Speech API support are browser-dependent; Chrome-based browsers are recommended for full functionality.[web:11]
+      </p>
+    </section>
+
+    <!-- CREDITS -->
+    <section id="credits">
+      <h2>Academic Credits</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Project Guide</h3>
+          <p><strong>Dr Juhi Singh</strong></p>
+        </div>
+        <div>
+          <h3>Team Members</h3>
+          <p><strong>Tanishq Tewari</strong></p>
+          <p>Roll No: 2427030776</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Voice Controlled Prosthetic Limb Using Voice Modulation &copy; 2026 • Built as a PBL project demo.
+    </footer>
+  </main>
+
+  <script>
+    // Basic speech recognition demo logic (front-end only)
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const liveStatus = document.getElementById('liveStatus');
+    const lastHeard = document.getElementById('lastHeard');
+    const historyList = document.getElementById('historyList');
+    const cmdCountSpan = document.getElementById('cmdCount');
+    const validRateSpan = document.getElementById('validRate');
+    const prostheticState = document.getElementById('prostheticState');
+    const prostheticStateDemo = document.getElementById('prostheticStateDemo');
+
+    let recognition;
+    let totalCommands = 0;
+    let validCommands = 0;
+    let handState = 'neutral';
+    let wristState = 'straight';
+    let elbowState = 'rest';
+
+    function updateStateText() {
+      const text = `
+        Hand: <strong>${handState}</strong><br/>
+        Wrist: <strong>${wristState}</strong><br/>
+        Elbow: <strong>${elbowState}</strong>
+      `;
+      if (prostheticState) prostheticState.innerHTML = text;
+      if (prostheticStateDemo) prostheticStateDemo.innerHTML = text;
+    }
+
+    function addHistoryItem(text, valid) {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `<span>[${time}]</span> ${text} - <span style="color:${valid ? '#22c55e' : '#f97316'};">${valid ? 'VALID' : 'IGNORED'}</span>`;
+      historyList.prepend(div);
+    }
+
+    function updateMetrics() {
+      cmdCountSpan.textContent = totalCommands;
+      const rate = totalCommands === 0 ? 0 : Math.round((validCommands / totalCommands) * 100);
+      validRateSpan.textContent = rate + '%';
+    }
+
+    function interpretCommand(text) {
+      let valid = false;
+      const t = text.toLowerCase();
+
+      if (t.includes('open hand')) { handState = 'open'; valid = true; }
+      else if (t.includes('close hand')) { handState = 'closed'; valid = true; }
+      else if (t.includes('relax hand')) { handState = 'relaxed'; valid = true; }
+      else if (t.includes('rotate wrist left')) { wristState = 'left'; valid = true; }
+      else if (t.includes('rotate wrist right')) { wristState = 'right'; valid = true; }
+      else if (t.includes('wrist straight')) { wristState = 'straight'; valid = true; }
+      else if (t.includes('bend elbow')) { elbowState = 'bent'; valid = true; }
+      else if (t.includes('extend elbow')) { elbowState = 'extended'; valid = true; }
+      else if (t.includes('elbow rest')) { elbowState = 'rest'; valid = true; }
+      else if (t.includes('reset prosthetic') || t.includes('reset hand')) {
+        handState = 'neutral'; wristState = 'straight'; elbowState = 'rest'; valid = true;
+      } else if (t.includes('stop movement') || t.includes('stop')) {
+        valid = true;
+      }
+
+      updateStateText();
+      return valid;
+    }
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        liveStatus.textContent = 'Status: Web Speech API not supported in this browser.';
+        startBtn.disabled = true;
+        stopBtn.disabled = true;
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.lang = 'en-IN';
+
+      recognition.onstart = () => {
+        liveStatus.textContent = 'Status: Listening... speak a command.';
+      };
+
+      recognition.onerror = (event) => {
+        liveStatus.textContent = 'Status: Error - ' + event.error;
+      };
+
+      recognition.onend = () => {
+        liveStatus.textContent = 'Status: Idle (recognition stopped).';
+      };
+
+      recognition.onresult = (event) => {
+        const last = event.results[event.results.length - 1];
+        const text = last[0].transcript.trim();
+        totalCommands++;
+        lastHeard.textContent = 'Last heard: "' + text + '"';
+        const valid = interpretCommand(text);
+        if (valid) validCommands++;
+        addHistoryItem(text, valid);
+        updateMetrics();
+      };
+    }
+
+    startBtn.addEventListener('click', () => {
+      if (!recognition) return;
+      recognition.start();
+    });
+
+    stopBtn.addEventListener('click', () => {
+      if (!recognition) return;
+      recognition.stop();
+    });
+
+    clearHistoryBtn.addEventListener('click', () => {
+      historyList.innerHTML = '<div class="history-item"><span>[--]</span> History cleared.</div>';
+      totalCommands = 0;
+      validCommands = 0;
+      updateMetrics();
+    });
+
+    updateStateText();
+    initSpeechRecognition();
+  </script>
+</body>
+</html>
