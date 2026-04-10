@@ -2,61 +2,338 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Voice Controlled Prosthetic Limb Using Voice Modulation</title>
+  <title>Smart Prosthetic Limb Control System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #050816; color: #e5e7eb; line-height: 1.6; }
-    a { color: #38bdf8; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    header { background: radial-gradient(circle at top, #1e293b, #020617); padding: 20px 40px; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #1f2937; }
-    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
-    .nav-left { display: flex; align-items: center; gap: 10px; }
-    .logo-circle { width: 32px; height: 32px; border-radius: 999px; background: linear-gradient(135deg,#22c55e,#3b82f6); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0b1120; }
-    .nav-links { display: flex; gap: 18px; font-size: 14px; }
-    .nav-links a { cursor: pointer; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
-    section { padding: 40px 0; border-bottom: 1px solid #111827; }
-    h1, h2, h3 { color: #f9fafb; margin-bottom: 16px; }
-    h1 { font-size: 32px; line-height: 1.2; }
-    h2 { font-size: 24px; }
-    h3 { font-size: 18px; }
-    p { margin-bottom: 10px; color: #e5e7eb; }
-    .tagline { color: #9ca3af; margin-bottom: 20px; }
-    .hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; }
-    .hero-right { text-align: center; }
-    .chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: rgba(56,189,248,0.1); color: #7dd3fc; font-size: 12px; margin-bottom: 10px; }
-    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 12px; }
-    .badge { padding: 4px 10px; border-radius: 999px; border: 1px solid #1f2937; background: rgba(15,23,42,0.9); }
-    .card { background: rgba(15,23,42,0.9); border-radius: 12px; padding: 18px 18px 14px; border: 1px solid #1f2937; margin-top: 12px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
-    ul { margin-left: 18px; margin-top: 6px; }
-    li { margin-bottom: 6px; }
-    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 12px; }
-    .pill { padding: 4px 8px; border-radius: 999px; background: #020617; border: 1px solid #1f2937; }
-    .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-    .btn { padding: 8px 14px; border-radius: 999px; border: 1px solid #4b5563; background: #111827; color: #e5e7eb; font-size: 13px; cursor: pointer; }
-    .btn-primary { background: linear-gradient(135deg,#22c55e,#3b82f6); color: #020617; border: none; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; margin-right: 4px; }
-    .status-live { background: #22c55e; }
-    .status-idle { background: #f97316; }
-    .flex-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: #9ca3af; }
-    .metric-row { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 10px; font-size: 13px; }
-    .metric { display: flex; flex-direction: column; }
-    .metric-label { color: #9ca3af; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .metric-value { font-size: 16px; color: #e5e7eb; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-    th, td { border: 1px solid #1f2937; padding: 8px 6px; text-align: left; }
-    th { background: #020617; }
-    code { font-size: 12px; background: #020617; padding: 3px 6px; border-radius: 4px; border: 1px solid #1f2937; display: inline-block; margin-top: 4px; }
-    .demo-columns { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 16px; }
-    .history-list { max-height: 200px; overflow-y: auto; font-size: 13px; }
-    .history-item { padding: 6px 0; border-bottom: 1px dashed #1f2937; }
-    .history-item span { display: inline-block; min-width: 80px; color: #9ca3af; }
-    footer { padding: 20px 0 10px; font-size: 12px; color: #6b7280; text-align: center; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-    /* Hand media (image or video) transition */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #050816;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      padding: 20px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#22c55e,#3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #0b1120;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    section {
+      padding: 40px 0;
+      border-bottom: 1px solid #111827;
+    }
+
+    h1, h2, h3 {
+      color: #f9fafb;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #e5e7eb;
+    }
+
+    .tagline {
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .hero-right {
+      text-align: center;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.1);
+      color: #7dd3fc;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .card {
+      background: rgba(15,23,42,0.9);
+      border-radius: 14px;
+      padding: 18px 18px 14px;
+      border: 1px solid #1f2937;
+      margin-top: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 20px;
+    }
+
+    ul {
+      margin-left: 18px;
+      margin-top: 6px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      background: #111827;
+      color: #e5e7eb;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: #64748b;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,#22c55e,#3b82f6);
+      color: #020617;
+      border: none;
+      font-weight: bold;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .status-live {
+      background: #22c55e;
+    }
+
+    .status-idle {
+      background: #f97316;
+    }
+
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #9ca3af;
+      flex-wrap: wrap;
+    }
+
+    .metric-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 10px;
+      font-size: 13px;
+      justify-content: center;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      min-width: 110px;
+    }
+
+    .metric-label {
+      color: #9ca3af;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric-value {
+      font-size: 16px;
+      color: #e5e7eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid #1f2937;
+      padding: 8px 6px;
+      text-align: left;
+    }
+
+    th {
+      background: #020617;
+    }
+
+    code {
+      font-size: 12px;
+      background: #020617;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border: 1px solid #1f2937;
+      display: inline-block;
+      margin-top: 4px;
+      white-space: pre-wrap;
+    }
+
+    .demo-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 16px;
+    }
+
+    .history-list {
+      max-height: 240px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    .history-item {
+      padding: 6px 0;
+      border-bottom: 1px dashed #1f2937;
+    }
+
+    .history-item span {
+      display: inline-block;
+      min-width: 80px;
+      color: #9ca3af;
+    }
+
+    footer {
+      padding: 20px 0 10px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+    }
+
     #prostheticHandMedia {
       transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       width: 180px;
@@ -65,14 +342,224 @@
       border-radius: 10px;
       border: 1px solid #1f2937;
     }
-    #prostheticHandMedia.switching { opacity: 0; transform: scale(0.82); }
-    #rotateVideoIndex { display: none; width: 180px; margin: 12px auto 0; border-radius: 10px; border: 1px solid #1f2937; }
+
+    #prostheticHandMedia.switching {
+      opacity: 0;
+      transform: scale(0.82);
+    }
+
+    #rotateVideoIndex {
+      display: none;
+      width: 180px;
+      margin: 12px auto 0;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+    }
+
+    .arduino-panel {
+      margin-top: 14px;
+      border-top: 1px solid #1f2937;
+      padding-top: 14px;
+    }
+
+    .slider-wrap {
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    .slider-wrap label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    .slider-wrap input[type="range"] {
+      width: 100%;
+    }
+
+    .mini-note {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 8px;
+    }
+
+    /* Hardware section */
+    .hardware-card {
+      background: rgba(15,23,42,0.92);
+      border-radius: 18px;
+      border: 1px solid #22304a;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .hardware-image-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+    }
+
+    .hardware-image {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .marker {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .marker-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #7dd3fc;
+      border: 3px solid #e2e8f0;
+      box-shadow: 0 0 0 10px rgba(56, 189, 248, 0.16);
+      transition: 0.2s ease;
+      margin: auto;
+    }
+
+    .marker:hover .marker-dot,
+    .marker.active .marker-dot {
+      background: #22c55e;
+      box-shadow: 0 0 0 12px rgba(34, 197, 94, 0.16);
+      transform: scale(1.08);
+    }
+
+    .marker-label {
+      margin-top: 8px;
+      white-space: nowrap;
+      background: rgba(2, 6, 23, 0.88);
+      color: #f8fafc;
+      border: 1px solid #233554;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12px;
+      text-align: center;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.22);
+    }
+
+    .hardware-info-wrap {
+      margin-top: 16px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .selected-part-box {
+      background: rgba(2,6,23,0.86);
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 130px;
+    }
+
+    .selected-part-box h3 {
+      margin-bottom: 10px;
+    }
+
+    .selected-part-title {
+      color: #22c55e;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .selected-part-sub {
+      color: #93c5fd;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    /* Horizontal important components */
+    #componentsList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 4px;
+    }
+
+    .component-card {
+      flex: 1 1 210px;
+      min-width: 180px;
+      max-width: 240px;
+      background: rgba(2,6,23,0.86);
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 14px;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .component-card:hover,
+    .component-card.active {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.15) inset;
+      transform: translateY(-2px);
+    }
+
+    .component-card strong {
+      display: block;
+      color: #f8fafc;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .component-card small {
+      color: #93c5fd;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .component-card p {
+      margin: 0;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
 
     @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; }
-      header { padding: 14px 18px; }
-      .container { padding: 20px 16px 40px; }
-      h1 { font-size: 26px; }
+      header {
+        padding: 14px 18px;
+      }
+
+      .container {
+        padding: 20px 16px 40px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .marker-label {
+        font-size: 10px;
+        padding: 5px 8px;
+      }
+
+      .marker-dot {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .component-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -83,13 +570,15 @@
         <div class="logo-circle">PL</div>
         <div>
           <div style="font-size:14px;color:#e5e7eb;">Prosthetic Limb Lab</div>
-          <div style="font-size:11px;color:#9ca3af;">Voice Controlled Prosthetic Limb</div>
+          <div style="font-size:11px;color:#9ca3af;">Smart Prosthetic Limb Control System</div>
         </div>
       </div>
+
       <nav class="nav-links">
         <a href="#problem">Problem</a>
         <a href="#research">Research</a>
         <a href="#methodology">Methodology</a>
+        <a href="#hardware">Hardware</a>
         <a href="#results">Results</a>
         <a href="#demo">Live Demo</a>
         <a href="#credits">Credits</a>
@@ -103,48 +592,77 @@
       <div class="hero">
         <div>
           <div class="chip">ID: 2427030776</div>
-          <h1>Voice Controlled Prosthetic Limb Using Voice Modulation</h1>
+          <h1>Smart Prosthetic Limb Using Voice Modulation and Arduino Control</h1>
           <p class="tagline">
-            A browser-based simulation that maps spoken commands to prosthetic limb movements using speech recognition and intelligent control.
+            A browser-based simulation that maps spoken commands to prosthetic limb movements and can be extended to Arduino-controlled finger actuation.
           </p>
+
           <div class="hero-badges">
             <div class="badge">Low-cost control interface</div>
             <div class="badge">Web Speech API</div>
+            <div class="badge">Arduino integration</div>
             <div class="badge">Real-time simulation</div>
             <div class="badge">Command history logging</div>
           </div>
+
           <div class="card">
             <div class="flex-row">
               <div><span class="status-dot status-live"></span>Live Prosthetic Voice Demo</div>
-              <div>Environment: <strong>Frontend Web App</strong></div>
+              <div>Environment: <strong>Frontend Web App + Arduino Ready</strong></div>
             </div>
+
             <p style="margin-top:8px;font-size:13px;color:#9ca3af;">
-              Click "Start Listening", speak commands like "open hand", "close hand", "rotate hand", and watch the virtual prosthetic respond.
+              Click “Start Listening”, speak commands like "open hand", "close hand", "relax hand", "rotate hand", and watch the prosthetic state update.
             </p>
+
             <div class="btn-row">
               <button id="startBtn" class="btn btn-primary">🎤 Start Listening</button>
               <button id="stopBtn" class="btn">⏹ Stop</button>
               <button id="clearHistoryBtn" class="btn">🧹 Clear History</button>
             </div>
+
             <p id="liveStatus" style="margin-top:10px;font-size:13px;color:#7dd3fc;">
               Status: Idle (microphone access required)
             </p>
+
+            <div class="arduino-panel">
+              <h3 style="margin-bottom:10px;">Arduino Finger Control</h3>
+              <div class="btn-row">
+                <button id="connectArduinoBtn" class="btn">🔌 Connect Arduino</button>
+                <button id="disconnectArduinoBtn" class="btn">❌ Disconnect</button>
+              </div>
+
+              <p id="arduinoStatus" class="mini-note">Arduino: Not connected</p>
+
+              <div class="slider-wrap">
+                <label for="fingerSlider">Finger Angle: <span id="fingerAngleValue">90°</span></label>
+                <input type="range" id="fingerSlider" min="0" max="180" value="90" />
+                <p class="mini-note">
+                  This angle can be sent to Arduino for controlling all finger servos together.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+
         <div class="hero-right">
           <div class="card">
             <h3>Prosthetic Simulation</h3>
             <p style="font-size:13px;color:#9ca3af;">Visual state updated by recognized voice commands.</p>
+
             <div id="prostheticState" style="margin-top:10px;font-size:14px;">
               Hand: <strong>neutral</strong><br/>
               Wrist: <strong>straight</strong><br/>
               Elbow: <strong>rest</strong>
             </div>
-            <!-- Media container: image by default, video for "rotate" -->
-            <img id="prostheticHandMedia" src="close.png" alt="Prosthetic Hand"
-                 onerror="this.style.display='none'"/>
+
+            <img id="prostheticHandMedia" src="close.png" alt="Prosthetic Hand" onerror="this.style.display='none'" />
             <video id="rotateVideoIndex" src="rotate_hand.mp4" loop muted playsinline></video>
-            <p id="prostheticHandState" style="font-size:11px;color:#6b7280;text-align:center;margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;">Hand: Neutral</p>
+
+            <p id="prostheticHandState" style="font-size:11px;color:#6b7280;text-align:center;margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;">
+              Hand: Neutral
+            </p>
+
             <div class="metric-row">
               <div class="metric">
                 <span class="metric-label">Commands seen</span>
@@ -160,6 +678,7 @@
               </div>
             </div>
           </div>
+
           <div class="card">
             <h3>Supported Voice Commands</h3>
             <ul style="font-size:13px;color:#9ca3af;">
@@ -169,54 +688,56 @@
               <li>"reset prosthetic", "stop movement"</li>
             </ul>
             <p style="margin-top:8px;font-size:12px;color:#6b7280;">
-              The same concept can map to real motors and sensors in a physical limb using microcontrollers and motor drivers.
+              The same commands can also be mapped to real servo motors connected to Arduino Uno.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PROBLEM STATEMENT -->
+    <!-- PROBLEM -->
     <section id="problem">
       <h2>Problem Statement</h2>
       <div class="grid-2">
         <div>
           <p>
-            Traditional prosthetic limbs are expensive and often rely on complex EMG signals that require high effort and long training time.
+            Traditional prosthetic limbs are expensive and often depend on EMG signals that require high effort, calibration, and training.
           </p>
           <p>
-            Many users struggle with intuitive control, especially for multi-joint movements like grasping, rotating, and lifting objects.
+            Many users struggle with intuitive control, especially when multiple finger or joint actions need to be coordinated.
           </p>
           <p>
-            This project aims to provide a low-cost, voice-based control layer that feels natural and reduces the learning curve for amputees.
+            This project aims to provide a low-cost, easy-to-understand control layer using voice commands and simple Arduino-based finger actuation.
           </p>
         </div>
+
         <div class="card">
-          <h3>Why Voice Modulation?</h3>
+          <h3>Why this model?</h3>
           <ul style="font-size:13px;color:#9ca3af;">
-            <li>No electrodes required (eliminates EMG noise and skin preparation)</li>
-            <li>Intuitive: commands match natural human speech</li>
-            <li>Rapid prototyping via web-based simulation before hardware deployment</li>
-            <li>Modular mapping allows adding new commands on the fly</li>
+            <li>Simple input using speech or potentiometer</li>
+            <li>Low-cost Arduino and servo-based implementation</li>
+            <li>Useful for rapid prototyping before final hardware deployment</li>
+            <li>Easy to expand with sensors and AI in future</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- RESEARCH & METHODOLOGY -->
+    <!-- RESEARCH -->
     <section id="research">
       <h2>Research Background & Innovation</h2>
       <div class="grid-2">
         <div class="card">
           <h3>Existing Approaches</h3>
           <p style="font-size:13px;color:#9ca3af;">
-            Prior systems use voice-controlled ICs mapped to servo motors for basic tasks. Bionic hands leverage predefined commands for grip selection across multiple degrees of freedom. Most solutions require hardware prototyping from the start.
+            Many prosthetic systems use EMG signals, sensor gloves, or predefined hardware modules to move fingers. These methods can be accurate but often increase overall system complexity and cost.
           </p>
         </div>
+
         <div class="card">
           <h3>Our Innovation</h3>
           <p style="font-size:13px;color:#9ca3af;">
-            Browser-first voice interface with modular command mapping. Rapid simulation and testing before hardware deployment. Backend logging for command history and analysis. Ready to connect to real prosthetic hardware via microcontrollers (Arduino, Raspberry Pi, etc.).
+            This project combines a browser-first voice interface with Arduino-based finger control. It allows testing command logic in software and directly mapping the same idea to physical servo motors.
           </p>
         </div>
       </div>
@@ -227,33 +748,189 @@
       <h2>System Architecture</h2>
       <div class="grid-2">
         <div class="card">
-          <h3>Frontend (Web Speech API)</h3>
+          <h3>Frontend (Web App)</h3>
           <p style="font-size:13px;color:#9ca3af;">
-            Captures microphone input, performs speech-to-text in real-time, sends commands to backend for processing and logging.
+            Captures voice commands through Web Speech API and updates the prosthetic simulation in real time.
           </p>
           <div class="pill-row">
+            <div class="pill">HTML5</div>
+            <div class="pill">CSS3</div>
             <div class="pill">JavaScript</div>
             <div class="pill">Web Speech API</div>
-            <div class="pill">HTML5</div>
           </div>
         </div>
+
         <div class="card">
-          <h3>Backend (Node.js + Express)</h3>
+          <h3>Hardware Layer (Arduino Uno)</h3>
           <p style="font-size:13px;color:#9ca3af;">
-            Receives voice commands, interprets actions (open/close/rotate), logs to JSON database, returns prosthetic state updates to frontend.
+            Reads potentiometer input from analog pin A0, maps the value to 0–180 degrees, and drives all five servos for finger motion.
           </p>
           <div class="pill-row">
-            <div class="pill">Node.js</div>
-            <div class="pill">Express</div>
-            <div class="pill">fs-extra</div>
+            <div class="pill">Arduino Uno</div>
+            <div class="pill">Servo Motors</div>
+            <div class="pill">Potentiometer</div>
+            <div class="pill">PWM Control</div>
           </div>
         </div>
       </div>
+
       <div class="card" style="margin-top:20px;">
         <h3>Command Flow</h3>
         <p style="font-size:13px;color:#9ca3af;">
-          Voice Input → Speech Recognition → Backend Processing → Action Interpretation → Prosthetic Simulation Update → Command History Logging
+          Voice Input / Potentiometer Input → Processing → Angle Mapping → Servo Actuation → Finger Movement / Simulation Update
         </p>
+      </div>
+    </section>
+
+    <!-- HARDWARE -->
+    <section id="hardware">
+      <h2>Hardware Setup & Interactive Circuit Labels</h2>
+      <p style="font-size:13px;color:#9ca3af;">
+        The circuit diagram below shows Arduino Uno, potentiometer, power rails, jumper wires, and five servos used to control prosthetic fingers.
+      </p>
+
+      <div class="hardware-card">
+        <div class="hardware-image-wrap" id="hardwareImageWrap">
+          <img src="hardware_setup.png" alt="Hardware Circuit Diagram" class="hardware-image" />
+
+          <!-- markers -->
+          <div class="marker" style="top:73%; left:10%;" data-part="arduino">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Arduino Uno</div>
+          </div>
+
+          <div class="marker" style="top:69%; left:40%;" data-part="potentiometer">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Potentiometer</div>
+          </div>
+
+          <div class="marker" style="top:84%; left:43%;" data-part="a0">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Analog Pin A0</div>
+          </div>
+
+          <div class="marker" style="top:5%; left:39%;" data-part="power5v">
+            <div class="marker-dot"></div>
+            <div class="marker-label">5V Rail</div>
+          </div>
+
+          <div class="marker" style="top:5%; left:49%;" data-part="gnd">
+            <div class="marker-dot"></div>
+            <div class="marker-label">GND Rail</div>
+          </div>
+
+          <div class="marker" style="top:60%; left:28%;" data-part="jumper">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Jumper Wires</div>
+          </div>
+
+          <div class="marker" style="top:15%; left:86%;" data-part="thumb">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Thumb Servo • D3</div>
+          </div>
+
+          <div class="marker" style="top:33%; left:86%;" data-part="index">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Index Servo • D5</div>
+          </div>
+
+          <div class="marker" style="top:49%; left:86%;" data-part="middle">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Middle Servo • D6</div>
+          </div>
+
+          <div class="marker" style="top:66%; left:86%;" data-part="ring">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Ring Servo • D9</div>
+          </div>
+
+          <div class="marker" style="top:83%; left:86%;" data-part="little">
+            <div class="marker-dot"></div>
+            <div class="marker-label">Little Servo • D10</div>
+          </div>
+        </div>
+
+        <div class="hardware-info-wrap">
+          <div class="selected-part-box" id="selectedPartBox">
+            <h3>Selected Part Details</h3>
+            <div class="selected-part-title" id="selectedPartTitle">Arduino Uno</div>
+            <div class="selected-part-sub" id="selectedPartPin">Main Controller</div>
+            <p id="selectedPartDescription">
+              Controls the complete system, reads the input, processes the program logic, and sends movement commands to all servo motors.
+            </p>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom:12px;">Important Components</h3>
+            <div id="componentsList">
+              <div class="component-card active" data-part="arduino">
+                <strong>Arduino Uno</strong>
+                <small>Main Controller</small>
+                <p>Processes input and controls all finger servos.</p>
+              </div>
+
+              <div class="component-card" data-part="potentiometer">
+                <strong>Potentiometer</strong>
+                <small>Analog Input</small>
+                <p>Provides variable input voltage to control finger angle.</p>
+              </div>
+
+              <div class="component-card" data-part="a0">
+                <strong>Analog Pin A0</strong>
+                <small>Input Pin</small>
+                <p>Reads the potentiometer value from 0 to 1023.</p>
+              </div>
+
+              <div class="component-card" data-part="power5v">
+                <strong>5V Rail</strong>
+                <small>Power Supply</small>
+                <p>Supplies power to the breadboard and servo system.</p>
+              </div>
+
+              <div class="component-card" data-part="gnd">
+                <strong>GND Rail</strong>
+                <small>Ground Line</small>
+                <p>Completes the electrical return path for the circuit.</p>
+              </div>
+
+              <div class="component-card" data-part="jumper">
+                <strong>Jumper Wires</strong>
+                <small>Connections</small>
+                <p>Connect Arduino, potentiometer, breadboard, and servos together.</p>
+              </div>
+
+              <div class="component-card" data-part="thumb">
+                <strong>Thumb Servo</strong>
+                <small>D3 PWM</small>
+                <p>Moves the thumb according to the mapped angle.</p>
+              </div>
+
+              <div class="component-card" data-part="index">
+                <strong>Index Servo</strong>
+                <small>D5 PWM</small>
+                <p>Controls the opening and bending of the index finger.</p>
+              </div>
+
+              <div class="component-card" data-part="middle">
+                <strong>Middle Servo</strong>
+                <small>D6 PWM</small>
+                <p>Controls the middle finger movement.</p>
+              </div>
+
+              <div class="component-card" data-part="ring">
+                <strong>Ring Servo</strong>
+                <small>D9 PWM</small>
+                <p>Drives the ring finger during opening and closing.</p>
+              </div>
+
+              <div class="component-card" data-part="little">
+                <strong>Little Servo</strong>
+                <small>D10 PWM</small>
+                <p>Controls the little finger for grip formation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -268,24 +945,26 @@
             <tr><td>Recognition Accuracy</td><td>92%</td></tr>
             <tr><td>Avg Response Latency</td><td>&lt;200ms</td></tr>
             <tr><td>Supported Commands</td><td>12+</td></tr>
-            <tr><td>Noise Resilience</td><td>~80 dB ambient</td></tr>
+            <tr><td>Servo Control Range</td><td>0° to 180°</td></tr>
           </table>
         </div>
+
         <div class="card">
           <h3>Analysis</h3>
           <p style="font-size:13px;color:#9ca3af;">
-            Tested with 50+ trial commands across different ambient noise levels. System maintained high accuracy even at conversational speech levels (~60-70 dB). Outperforms EMG-based baseline (70% accuracy) with significantly lower training time (~2 hours vs. 40+ hours).
+            The system successfully demonstrates how low-cost components like Arduino Uno, a potentiometer, and servo motors can be used to simulate coordinated prosthetic finger motion.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- LIVE DEMO -->
+    <!-- DEMO -->
     <section id="demo">
       <h2>Live Interactive Demo</h2>
       <p style="font-size:13px;color:#9ca3af;margin-bottom:10px;">
         Real-time voice control demonstration. Commands are logged and visualized below.
       </p>
+
       <div class="demo-columns">
         <div class="card">
           <h3>🎤 Voice Input</h3>
@@ -296,17 +975,20 @@
             Last heard: <em>no command yet</em>
           </p>
         </div>
+
         <div class="card">
           <h3>🦾 Prosthetic Simulation</h3>
           <p style="font-size:13px;color:#9ca3af;">
             This panel mirrors the prosthetic's logical state and can be mapped to real actuators.
           </p>
+
           <div id="prostheticStateDemo" style="margin-top:8px;font-size:14px;">
             Hand: <strong>neutral</strong><br/>
             Wrist: <strong>straight</strong><br/>
             Elbow: <strong>rest</strong>
           </div>
         </div>
+
         <div class="card">
           <h3>📜 Command History</h3>
           <div class="history-list" id="historyList">
@@ -316,9 +998,50 @@
           </div>
         </div>
       </div>
+
       <p style="margin-top:10px;font-size:12px;color:#6b7280;">
-        Note: Microphone and Web Speech API support are browser-dependent; Chrome-based browsers are recommended for full functionality.
+        Note: Microphone and Web Speech API support are browser-dependent; Chrome-based browsers are recommended.
       </p>
+    </section>
+
+    <!-- ARDUINO CODE -->
+    <section id="arduino-code">
+      <h2>Arduino Uno Code</h2>
+      <div class="card">
+        <p style="font-size:13px;color:#9ca3af;">
+          Upload this code to Arduino Uno to control all five servo motors using a potentiometer connected to A0.
+        </p>
+<code>
+#include &lt;Servo.h&gt;
+
+Servo thumb, indexFinger, middleFinger, ringFinger, littleFinger;
+
+int inputPin = A0;
+
+void setup() {
+  thumb.attach(3);
+  indexFinger.attach(5);
+  middleFinger.attach(6);
+  ringFinger.attach(9);
+  littleFinger.attach(10);
+}
+
+void loop() {
+  int value = analogRead(inputPin);
+
+  // Map potentiometer (0–1023) to servo angle (0–180)
+  int angle = map(value, 0, 1023, 0, 180);
+
+  thumb.write(angle);
+  indexFinger.write(angle);
+  middleFinger.write(angle);
+  ringFinger.write(angle);
+  littleFinger.write(angle);
+
+  delay(20);
+}
+</code>
+      </div>
     </section>
 
     <!-- CREDITS -->
@@ -330,7 +1053,7 @@
           <p><strong>Dr Juhi Singh</strong></p>
         </div>
         <div>
-          <h3>Team Members</h3>
+          <h3>Team Member</h3>
           <p><strong>Tanishq Tewari</strong></p>
           <p>Roll No: 2427030776</p>
         </div>
@@ -338,12 +1061,14 @@
     </section>
 
     <footer>
-      Voice Controlled Prosthetic Limb Using Voice Modulation &copy; 2026 • Built as a PBL project demo.
+      Smart Prosthetic Limb Control System © 2026 • Built as a PBL project demo.
     </footer>
   </main>
 
   <script>
-    // Speech recognition demo logic
+    // ------------------------------
+    // Speech recognition + demo logic
+    // ------------------------------
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
@@ -376,7 +1101,8 @@
       const time = new Date().toLocaleTimeString();
       const div = document.createElement('div');
       div.className = 'history-item';
-      div.innerHTML = `<span>[${time}]</span> ${text} - <span style="color:${valid ? '#22c55e' : '#f97316'};">${valid ? 'VALID' : 'IGNORED'}</span>`;
+      div.innerHTML =
+        `<span>[${time}]</span> ${text} - <span style="color:${valid ? '#22c55e' : '#f97316'};">${valid ? 'VALID' : 'IGNORED'}</span>`;
       historyList.prepend(div);
     }
 
@@ -390,18 +1116,45 @@
       let valid = false;
       const t = text.toLowerCase();
 
-      if (t.includes('open hand')) { handState = 'open'; valid = true; }
-      else if (t.includes('close hand')) { handState = 'closed'; valid = true; }
-      else if (t.includes('relax hand')) { handState = 'relaxed'; valid = true; }
-      else if (t.includes('rotate wrist left')) { wristState = 'left'; valid = true; }
-      else if (t.includes('rotate wrist right')) { wristState = 'right'; valid = true; }
-      else if (t.includes('wrist straight')) { wristState = 'straight'; valid = true; }
-      else if (t.includes('bend elbow')) { elbowState = 'bent'; valid = true; }
-      else if (t.includes('extend elbow')) { elbowState = 'extended'; valid = true; }
-      else if (t.includes('elbow rest')) { elbowState = 'rest'; valid = true; }
-      else if (t.includes('rotate hand')) { handState = 'rotating'; valid = true; }
-      else if (t.includes('reset prosthetic') || t.includes('reset hand')) {
-        handState = 'neutral'; wristState = 'straight'; elbowState = 'rest'; valid = true;
+      if (t.includes('open hand')) {
+        handState = 'open';
+        valid = true;
+        setFingerAngle(0, true);
+      } else if (t.includes('close hand')) {
+        handState = 'closed';
+        valid = true;
+        setFingerAngle(180, true);
+      } else if (t.includes('relax hand')) {
+        handState = 'relaxed';
+        valid = true;
+        setFingerAngle(90, true);
+      } else if (t.includes('rotate wrist left')) {
+        wristState = 'left';
+        valid = true;
+      } else if (t.includes('rotate wrist right')) {
+        wristState = 'right';
+        valid = true;
+      } else if (t.includes('wrist straight')) {
+        wristState = 'straight';
+        valid = true;
+      } else if (t.includes('bend elbow')) {
+        elbowState = 'bent';
+        valid = true;
+      } else if (t.includes('extend elbow')) {
+        elbowState = 'extended';
+        valid = true;
+      } else if (t.includes('elbow rest')) {
+        elbowState = 'rest';
+        valid = true;
+      } else if (t.includes('rotate hand')) {
+        handState = 'rotating';
+        valid = true;
+      } else if (t.includes('reset prosthetic') || t.includes('reset hand')) {
+        handState = 'neutral';
+        wristState = 'straight';
+        elbowState = 'rest';
+        setFingerAngle(90, true);
+        valid = true;
       } else if (t.includes('stop movement') || t.includes('stop')) {
         valid = true;
       }
@@ -411,9 +1164,8 @@
       return valid;
     }
 
-    /* ── MEDIA SWITCHING: image for open/close, video for rotate ── */
     function updateHandMedia(state) {
-      const img   = document.getElementById('prostheticHandMedia');
+      const img = document.getElementById('prostheticHandMedia');
       const video = document.getElementById('rotateVideoIndex');
       const label = document.getElementById('prostheticHandState');
       if (!img || !video) return;
@@ -451,7 +1203,7 @@
           img.style.display = 'none';
           video.style.display = 'block';
           video.currentTime = 0;
-          video.play();
+          video.play().catch(() => {});
           video.style.opacity = 1;
         } else {
           video.pause();
@@ -460,12 +1212,14 @@
           img.src = newSrc;
           img.classList.remove('switching');
         }
+
         if (label) label.textContent = newLabel;
       }, 270);
     }
 
     function initSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
       if (!SpeechRecognition) {
         liveStatus.textContent = 'Status: Web Speech API not supported in this browser.';
         startBtn.disabled = true;
@@ -493,23 +1247,24 @@
       recognition.onresult = (event) => {
         const last = event.results[event.results.length - 1];
         const text = last[0].transcript.trim();
+
         totalCommands++;
         lastHeard.textContent = 'Last heard: "' + text + '"';
+
         const valid = interpretCommand(text);
         if (valid) validCommands++;
+
         addHistoryItem(text, valid);
         updateMetrics();
       };
     }
 
     startBtn.addEventListener('click', () => {
-      if (!recognition) return;
-      recognition.start();
+      if (recognition) recognition.start();
     });
 
     stopBtn.addEventListener('click', () => {
-      if (!recognition) return;
-      recognition.stop();
+      if (recognition) recognition.stop();
     });
 
     clearHistoryBtn.addEventListener('click', () => {
@@ -519,8 +1274,181 @@
       updateMetrics();
     });
 
+    // ------------------------------
+    // Arduino Web Serial support
+    // ------------------------------
+    const connectArduinoBtn = document.getElementById('connectArduinoBtn');
+    const disconnectArduinoBtn = document.getElementById('disconnectArduinoBtn');
+    const arduinoStatus = document.getElementById('arduinoStatus');
+    const fingerSlider = document.getElementById('fingerSlider');
+    const fingerAngleValue = document.getElementById('fingerAngleValue');
+
+    let serialPort = null;
+    let serialWriter = null;
+
+    async function connectArduino() {
+      if (!('serial' in navigator)) {
+        arduinoStatus.textContent = 'Arduino: Web Serial not supported in this browser. Use Chrome or Edge.';
+        return;
+      }
+
+      try {
+        serialPort = await navigator.serial.requestPort();
+        await serialPort.open({ baudRate: 9600 });
+        serialWriter = serialPort.writable.getWriter();
+        arduinoStatus.textContent = 'Arduino: Connected successfully';
+      } catch (error) {
+        arduinoStatus.textContent = 'Arduino: Connection failed';
+        console.error(error);
+      }
+    }
+
+    async function disconnectArduino() {
+      try {
+        if (serialWriter) {
+          await serialWriter.close();
+          serialWriter = null;
+        }
+
+        if (serialPort) {
+          await serialPort.close();
+          serialPort = null;
+        }
+
+        arduinoStatus.textContent = 'Arduino: Disconnected';
+      } catch (error) {
+        console.error(error);
+        arduinoStatus.textContent = 'Arduino: Error while disconnecting';
+      }
+    }
+
+    async function sendAngleToArduino(angle) {
+      if (!serialWriter) return;
+      const message = `ANGLE:${angle}\n`;
+      try {
+        await serialWriter.write(new TextEncoder().encode(message));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function setFingerAngle(angle, sendToArduino = false) {
+      fingerSlider.value = angle;
+      fingerAngleValue.textContent = angle + '°';
+      if (sendToArduino) sendAngleToArduino(angle);
+    }
+
+    connectArduinoBtn.addEventListener('click', connectArduino);
+    disconnectArduinoBtn.addEventListener('click', disconnectArduino);
+
+    fingerSlider.addEventListener('input', () => {
+      const angle = fingerSlider.value;
+      fingerAngleValue.textContent = angle + '°';
+      sendAngleToArduino(angle);
+    });
+
+    // ------------------------------
+    // Hardware labels + details
+    // ------------------------------
+    const partData = {
+      arduino: {
+        title: 'Arduino Uno',
+        pin: 'Main Controller',
+        description: 'Controls the complete system, reads the input, processes the logic, and sends movement commands to all servo motors.'
+      },
+      potentiometer: {
+        title: 'Potentiometer',
+        pin: 'Analog Input Device',
+        description: 'Provides a variable voltage based on knob rotation, allowing manual adjustment of finger angle.'
+      },
+      a0: {
+        title: 'Analog Pin A0',
+        pin: 'Arduino Analog Input',
+        description: 'Reads the potentiometer output voltage and converts it into a value from 0 to 1023.'
+      },
+      power5v: {
+        title: '5V Rail',
+        pin: 'Power Supply',
+        description: 'Supplies 5V power to the breadboard and servo side of the circuit.'
+      },
+      gnd: {
+        title: 'GND Rail',
+        pin: 'Ground Connection',
+        description: 'Provides the common ground reference needed to complete the circuit properly.'
+      },
+      jumper: {
+        title: 'Jumper Wires',
+        pin: 'Electrical Connections',
+        description: 'Connect all parts of the system together, including Arduino, breadboard, potentiometer, and servos.'
+      },
+      thumb: {
+        title: 'Thumb Servo',
+        pin: 'D3 PWM',
+        description: 'Moves the thumb finger according to the angle sent by the program.'
+      },
+      index: {
+        title: 'Index Servo',
+        pin: 'D5 PWM',
+        description: 'Controls the bending and opening of the index finger.'
+      },
+      middle: {
+        title: 'Middle Servo',
+        pin: 'D6 PWM',
+        description: 'Controls the middle finger motion using the same mapped angle.'
+      },
+      ring: {
+        title: 'Ring Servo',
+        pin: 'D9 PWM',
+        description: 'Drives the ring finger movement during open and close actions.'
+      },
+      little: {
+        title: 'Little Servo',
+        pin: 'D10 PWM',
+        description: 'Controls the little finger movement for grip formation.'
+      }
+    };
+
+    const markers = document.querySelectorAll('.marker');
+    const componentCards = document.querySelectorAll('.component-card');
+    const selectedPartTitle = document.getElementById('selectedPartTitle');
+    const selectedPartPin = document.getElementById('selectedPartPin');
+    const selectedPartDescription = document.getElementById('selectedPartDescription');
+
+    function setActivePart(partKey) {
+      const part = partData[partKey];
+      if (!part) return;
+
+      selectedPartTitle.textContent = part.title;
+      selectedPartPin.textContent = part.pin;
+      selectedPartDescription.textContent = part.description;
+
+      markers.forEach(marker => {
+        marker.classList.toggle('active', marker.dataset.part === partKey);
+      });
+
+      componentCards.forEach(card => {
+        card.classList.toggle('active', card.dataset.part === partKey);
+      });
+    }
+
+    markers.forEach(marker => {
+      marker.addEventListener('click', () => {
+        setActivePart(marker.dataset.part);
+      });
+    });
+
+    componentCards.forEach(card => {
+      card.addEventListener('click', () => {
+        setActivePart(card.dataset.part);
+      });
+    });
+
+    // Initial state
     updateStateText();
+    updateMetrics();
+    updateHandMedia('neutral');
     initSpeechRecognition();
+    setActivePart('arduino');
   </script>
 </body>
 </html>
