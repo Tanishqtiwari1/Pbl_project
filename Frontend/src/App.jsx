@@ -14,6 +14,7 @@ import Insights from './pages/Insights';
 import Reports from './pages/Reports';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import ModelInsights from './pages/ModelInsights';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/simulator" element={<Simulator />} />
           <Route path="/history" element={<History />} />
           <Route path="/insights" element={<Insights />} />
+          <Route path="/model-insights" element={<ModelInsights />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />

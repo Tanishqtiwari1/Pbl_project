@@ -1,5 +1,10 @@
 from pydantic import BaseModel, Field
 
+
+class ActionPlanItem(BaseModel):
+    title: str
+    detail: str
+
 class HealthDataInput(BaseModel):
     age: int = Field(..., ge=1, le=120)
     sex: int = Field(..., description="0 for female, 1 for male")
@@ -16,3 +21,4 @@ class PredictionResponse(BaseModel):
     risk_category: str
     shap_values: dict
     insights: list
+    action_plan: list[ActionPlanItem]

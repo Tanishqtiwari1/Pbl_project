@@ -1,5 +1,5 @@
 import { NavLink, Link } from 'react-router-dom';
-import { Activity, BarChart3, ClipboardList, FileText, History, Lightbulb, PanelLeftClose, X } from 'lucide-react';
+import { Activity, BarChart3, ClipboardList, FileText, History, Lightbulb, LineChart, PanelLeftClose, X } from 'lucide-react';
 
 const links = [
   { to: '/dashboard', label: 'Overview', icon: BarChart3 },
@@ -7,6 +7,7 @@ const links = [
   { to: '/simulator', label: 'What-if lab', icon: Activity },
   { to: '/history', label: 'Health history', icon: History },
   { to: '/insights', label: 'Insights', icon: Lightbulb },
+  { to: '/model-insights', label: 'Model insights', icon: LineChart },
   { to: '/reports', label: 'Reports', icon: FileText },
 ];
 

@@ -52,3 +52,4 @@ export const requestPasswordReset = async (email) => (await api.post('/auth/forg
 export const resetPassword = async (data) => (await api.post('/auth/reset-password', data)).data;
 export const getCurrentUser = async () => (await api.get('/auth/me')).data;
 export const getHistory = async () => (await api.get('/history')).data;
+export const getModelInsights = async () => (await api.get('/model-insights')).data;
