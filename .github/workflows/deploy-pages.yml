@@ -38,7 +38,12 @@ jobs:
       - name: Build frontend
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        run: npm run build
+          GITHUB_ACTIONS: true
+        run: |
+          rm -rf Frontend/dist
+          npm run build
+          test -f Frontend/dist/index.html
+          test -n "$(find Frontend/dist/assets -type f -name '*.js' -print -quit)"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
