@@ -1,8 +1,7 @@
 import os
-import smtplib
 from datetime import datetime, timezone
-from email.message import EmailMessage
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -17,25 +16,33 @@ RESET_MESSAGE = "If an account exists for that email, a password reset link has 
 
 
 def send_reset_email(email: str, token: str) -> None:
-    smtp_host = os.getenv("SMTP_HOST")
-    smtp_username = os.getenv("SMTP_USERNAME")
-    smtp_password = os.getenv("SMTP_PASSWORD")
+    resend_api_key = os.getenv("RESEND_API_KEY")
+    from_email = os.getenv("RESEND_FROM_EMAIL")
     frontend_url = os.getenv("FRONTEND_URL", "https://tanishqtiwari1.github.io/Pbl_project/").rstrip("/")
-    if not all((smtp_host, smtp_username, smtp_password)):
+    if not all((resend_api_key, from_email, frontend_url)):
         raise RuntimeError("Password reset email service is not configured")
-    message = EmailMessage()
-    message["Subject"] = "Reset your CardioGuard password"
-    message["From"] = os.getenv("SMTP_FROM", smtp_username)
-    message["To"] = email
-    message.set_content(
-        "Use this link within one hour to reset your CardioGuard password:\n\n"
-        f"{frontend_url}/#/reset-password?token={token}\n\n"
-        "If you did not request this, you can ignore this email."
-    )
-    with smtplib.SMTP(smtp_host, int(os.getenv("SMTP_PORT", "587")), timeout=10) as smtp:
-        smtp.starttls()
-        smtp.login(smtp_username, smtp_password)
-        smtp.send_message(message)
+    reset_url = f"{frontend_url}/#/reset-password?token={token}"
+    payload = {
+        "from": from_email,
+        "to": [email],
+        "subject": "Reset your CardioGuard password",
+        "text": (
+            "Use this link within one hour to reset your CardioGuard password:\n\n"
+            f"{reset_url}\n\n"
+            "If you did not request this, you can ignore this email."
+        ),
+    }
+    timeout = httpx.Timeout(connect=5.0, read=10.0, write=10.0, pool=5.0)
+    try:
+        response = httpx.post(
+            "https://api.resend.com/emails",
+            headers={"Authorization": f"Bearer {resend_api_key}"},
+            json=payload,
+            timeout=timeout,
+        )
+        response.raise_for_status()
+    except httpx.HTTPError as exc:
+        raise RuntimeError("Password reset email could not be sent") from exc
 
 
 @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
@@ -88,10 +95,12 @@ def reset_password(data: ResetPasswordRequest, db: Session = Depends(get_db)):
         PasswordResetToken.token_hash == hash_reset_token(data.token),
         PasswordResetToken.used.is_(False),
     ).first()
+    if not reset:
+        raise HTTPException(status_code=400, detail="This password reset link is invalid or expired")
     expires_at = reset.expires_at
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
-    if not reset or expires_at <= datetime.now(timezone.utc):
+    if expires_at <= datetime.now(timezone.utc):
         raise HTTPException(status_code=400, detail="This password reset link is invalid or expired")
     user = db.query(User).filter(User.id == reset.user_id).first()
     if not user:
