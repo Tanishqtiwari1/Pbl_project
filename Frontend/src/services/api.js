@@ -17,5 +17,7 @@ export const submitAssessment = async (healthData, persist = true) => {
 
 export const registerUser = async (userData) => (await api.post('/auth/register', userData)).data;
 export const loginUser = async (credentials) => (await api.post('/auth/login', credentials)).data;
+export const requestPasswordReset = async (email) => (await api.post('/auth/forgot-password', { email })).data;
+export const resetPassword = async (data) => (await api.post('/auth/reset-password', data)).data;
 export const getCurrentUser = async () => (await api.get('/auth/me')).data;
 export const getHistory = async () => (await api.get('/history')).data;
