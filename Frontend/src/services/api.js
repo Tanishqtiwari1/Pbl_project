@@ -10,6 +10,17 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401 && sessionStorage.getItem('cardioguard_token')) {
+            sessionStorage.removeItem('cardioguard_token');
+            window.dispatchEvent(new Event('cardioguard:session-expired'));
+        }
+        return Promise.reject(error);
+    },
+);
+
 export const submitAssessment = async (healthData, persist = true) => {
     const response = await api.post('/predict', healthData, { params: { persist } });
     return response.data;

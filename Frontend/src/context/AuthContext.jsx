@@ -14,6 +14,12 @@ export function AuthProvider({ children }) {
     getCurrentUser().then(setUser).catch(() => sessionStorage.removeItem(TOKEN_KEY)).finally(() => setChecking(false));
   }, []);
 
+  useEffect(() => {
+    const handleSessionExpired = () => setUser(null);
+    window.addEventListener('cardioguard:session-expired', handleSessionExpired);
+    return () => window.removeEventListener('cardioguard:session-expired', handleSessionExpired);
+  }, []);
+
   const authenticate = (payload) => { sessionStorage.setItem(TOKEN_KEY, payload.access_token); setUser(payload.user); return payload.user; };
   const login = async (credentials) => authenticate(await loginUser(credentials));
   const signup = async (data) => authenticate(await registerUser(data));
