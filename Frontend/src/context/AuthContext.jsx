@@ -1,17 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentUser, loginUser, registerUser } from '../services/api';
+import { clearStoredToken, getCurrentUser, getStoredToken, loginUser, registerUser, storeToken } from '../services/api';
 
 const AuthContext = createContext(null);
-const TOKEN_KEY = 'cardioguard_token';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const token = sessionStorage.getItem(TOKEN_KEY);
+    const token = getStoredToken();
     if (!token) { setChecking(false); return; }
-    getCurrentUser().then(setUser).catch(() => sessionStorage.removeItem(TOKEN_KEY)).finally(() => setChecking(false));
+    getCurrentUser().then(setUser).catch(() => clearStoredToken()).finally(() => setChecking(false));
   }, []);
 
   useEffect(() => {
@@ -20,10 +19,10 @@ export function AuthProvider({ children }) {
     return () => window.removeEventListener('cardioguard:session-expired', handleSessionExpired);
   }, []);
 
-  const authenticate = (payload) => { sessionStorage.setItem(TOKEN_KEY, payload.access_token); setUser(payload.user); return payload.user; };
+  const authenticate = (payload) => { storeToken(payload.access_token); setUser(payload.user); return payload.user; };
   const login = async (credentials) => authenticate(await loginUser(credentials));
   const signup = async (data) => authenticate(await registerUser(data));
-  const logout = () => { sessionStorage.removeItem(TOKEN_KEY); setUser(null); };
+  const logout = () => { clearStoredToken(); setUser(null); };
 
   return <AuthContext.Provider value={{ user, checking, login, signup, logout }}>{children}</AuthContext.Provider>;
 }
