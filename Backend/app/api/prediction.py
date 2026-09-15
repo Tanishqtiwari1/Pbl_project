@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 import pickle
-import numpy as np
+import pandas as pd
 import shap
 import os
 from sqlalchemy.orm import Session
@@ -15,6 +15,7 @@ router = APIRouter()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, 'ml', 'model.pkl')
 SCALER_PATH = os.path.join(BASE_DIR, 'ml', 'scaler.pkl')
+FEATURE_NAMES = ['age', 'sex', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak']
 
 try:
     with open(MODEL_PATH, 'rb') as f:
@@ -27,14 +28,10 @@ except Exception as e:
 @router.post("/predict", response_model=PredictionResponse)
 def predict_risk(data: HealthDataInput, persist: bool = Query(True), user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        feature_names = ['age', 'sex', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak']
-        input_data = np.array([[
-            data.age, data.sex, data.trestbps, data.chol, 
-            data.fbs, data.restecg, data.thalach, data.exang, data.oldpeak
-        ]])
-        
+        input_data = pd.DataFrame([data.model_dump()], columns=FEATURE_NAMES)
         input_scaled = scaler.transform(input_data)
-        probability = float(model.predict_proba(input_scaled)[0][1] * 100)
+        class_index = list(model.classes_).index(1)
+        probability = float(model.predict_proba(input_scaled)[0][class_index] * 100)
         
         if probability < 33:
             category = "LOW"
@@ -46,7 +43,7 @@ def predict_risk(data: HealthDataInput, persist: bool = Query(True), user: User 
         explainer = shap.TreeExplainer(model)
         shap_vals = explainer.shap_values(input_scaled)
         
-        shap_dict = {feature_names[i]: float(shap_vals[0][i]) for i in range(len(feature_names))}
+        shap_dict = {FEATURE_NAMES[i]: float(shap_vals[0][i]) for i in range(len(FEATURE_NAMES))}
         
         insights = []
         if data.trestbps > 130:
