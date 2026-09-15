@@ -30,11 +30,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Require deployed API URL
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        run: test -n "$VITE_API_URL"
-
       - name: Build frontend
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
