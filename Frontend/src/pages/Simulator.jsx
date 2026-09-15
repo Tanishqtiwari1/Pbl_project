@@ -155,7 +155,7 @@ export default function Simulator() {
               <small>Current</small>
               <strong>
                 {baselineRisk !== null
-                  ? `${Number(baselineRisk).toFixed(0)}%`
+                  ? `${Number(baselineRisk).toFixed(2)}%`
                   : "--"}
               </strong>
               <span>baseline risk</span>
@@ -164,7 +164,7 @@ export default function Simulator() {
             <div className="sim-current">
               <small>Simulated</small>
               <strong>
-                {simRisk !== null ? `${Number(simRisk).toFixed(0)}%` : "--"}
+                {simRisk !== null ? `${Number(simRisk).toFixed(2)}%` : "--"}
               </strong>
               <span>new estimate</span>
             </div>
