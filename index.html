@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CardioGuard</title>
+    <!-- GitHub Pages may serve this repository folder directly; the built app lives in Frontend/dist.
+         Keep the #/route so deep links (e.g. #/emergency, password reset) still work. -->
+    <meta http-equiv="refresh" content="0; url=./Frontend/dist/" />
+    <script>location.replace('./Frontend/dist/' + location.hash);</script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" crossorigin src="./Frontend/dist/assets/index-Cd2lHOhE.js"></script>
-    <link rel="stylesheet" crossorigin href="./Frontend/dist/assets/index-DysbVn6r.css">
+    <p>Loading CardioGuard… <a href="./Frontend/dist/">Open the app</a></p>
   </body>
 </html>

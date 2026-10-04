@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+// Relative asset paths in production builds, so the same build works whether GitHub Pages
+// serves the Actions artifact (site root = Frontend/dist) or the repository branch
+// (root index.html redirects to Frontend/dist/).
+export default defineConfig(({ command }) => ({
   root: 'Frontend',
-  base: process.env.GITHUB_ACTIONS ? '/Pbl_project/' : '/',
+  base: command === 'build' ? './' : '/',
   resolve: {
     dedupe: ['react', 'react-dom', 'react-router-dom'],
   },
@@ -16,4 +19,4 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 4173,
   },
-});
+}));
