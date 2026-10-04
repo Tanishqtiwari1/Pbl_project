@@ -10,6 +10,7 @@ class AssessmentHistory(Base):
     
     age = Column(Integer)
     sex = Column(Integer)
+    cp = Column(Integer, nullable=True)
     trestbps = Column(Integer)
     chol = Column(Integer)
     fbs = Column(Integer)

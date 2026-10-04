@@ -1,9 +1,12 @@
 import { NavLink, Link } from 'react-router-dom';
-import { Activity, BarChart3, ClipboardList, FileText, History, Lightbulb, LineChart, PanelLeftClose, X } from 'lucide-react';
+import { Activity, BarChart3, ClipboardList, FileText, History, HousePlus, Lightbulb, LineChart, PanelLeftClose, Siren, Users, X } from 'lucide-react';
+import { useT } from '../../i18n';
 
 const links = [
   { to: '/dashboard', label: 'Overview', icon: BarChart3 },
-  { to: '/assessment', label: 'Assessment', icon: ClipboardList },
+  { to: '/home-screening', labelKey: 'nav.homeScreening', icon: HousePlus },
+  { to: '/assessment', label: 'Clinical assessment', icon: ClipboardList },
+  { to: '/community', labelKey: 'nav.community', icon: Users },
   { to: '/simulator', label: 'What-if lab', icon: Activity },
   { to: '/history', label: 'Health history', icon: History },
   { to: '/insights', label: 'Insights', icon: Lightbulb },
@@ -12,6 +15,7 @@ const links = [
 ];
 
 export default function Sidebar({ open, onClose, onToggle }) {
+  const { t } = useT();
   return (
     <aside className={`sidebar ${open ? 'sidebar-open' : ''}`}>
       <div className="sidebar-head">
@@ -23,16 +27,17 @@ export default function Sidebar({ open, onClose, onToggle }) {
       </div>
       <div className="sidebar-section-label">Workspace</div>
       <nav className="side-nav">
-        {links.map(({ to, label, icon: Icon }) => (
+        {links.map(({ to, label, labelKey, icon: Icon }) => (
           <NavLink key={to} to={to} onClick={onClose} className={({ isActive }) => `side-link ${isActive ? 'active' : ''}`}>
-            <Icon size={19} /><span>{label}</span>
+            <Icon size={19} /><span>{labelKey ? t(labelKey) : label}</span>
           </NavLink>
         ))}
+        <NavLink to="/emergency" onClick={onClose} className="side-link side-link-emergency"><Siren size={19} /><span>{t('nav.emergency')}</span></NavLink>
       </nav>
       <div className="sidebar-spacer" />
       <div className="sidebar-note">
         <span className="note-dot" />
-        <div><strong>Private by design</strong><p>Your assessment stays on this device.</p></div>
+        <div><strong>Private by design</strong><p>Only you can see your results. Lab reports are read on this device.</p></div>
       </div>
       <button className="collapse-btn" onClick={onToggle}><PanelLeftClose size={18} /><span>Collapse sidebar</span></button>
     </aside>

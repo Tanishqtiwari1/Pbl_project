@@ -1,6 +1,6 @@
 const KEY = 'cardioguard_assessments';
 
-export const defaultHealthData = { age: 50, sex: 1, trestbps: 120, chol: 200, fbs: 0, restecg: 1, thalach: 150, exang: 0, oldpeak: 1.0 };
+export const defaultHealthData = { age: 50, sex: 1, cp: 4, trestbps: 120, chol: 200, fbs: 0, restecg: 1, thalach: 150, exang: 0, oldpeak: 1.0 };
 
 export function getAssessments() {
   try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; }

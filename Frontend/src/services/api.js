@@ -53,3 +53,11 @@ export const resetPassword = async (data) => (await api.post('/auth/reset-passwo
 export const getCurrentUser = async () => (await api.get('/auth/me')).data;
 export const getHistory = async () => (await api.get('/history')).data;
 export const getModelInsights = async () => (await api.get('/model-insights')).data;
+export const getScreeningModel = async () => (await api.get('/screening/model')).data;
+export const getScreeningInsights = async () => (await api.get('/screening/model-insights')).data;
+export const submitScreening = async (data, persist = true) => (await api.post('/screening/predict', data, { params: { persist } })).data;
+export const getScreeningHistory = async () => (await api.get('/screening/history')).data;
+export const syncCommunity = async (batch) => (await api.post('/community/sync', batch)).data;
+export const getPatients = async () => (await api.get('/community/patients')).data;
+export const getPatient = async (id) => (await api.get(`/community/patients/${id}`)).data;
+export const updateReferral = async (screeningId, status) => (await api.patch(`/community/screenings/${screeningId}`, { referral_status: status })).data;

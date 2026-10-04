@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   ArrowRight,
@@ -16,7 +16,14 @@ import useHistoryData from "../hooks/useHistoryData";
 export default function Simulator() {
   const { history, loading: historyLoading } = useHistoryData();
   const latest = history[0];
-  const baselineData = latest?.form_data || defaultHealthData;
+  // Assessments saved before chest pain type was added have cp = null.
+  const baselineData = useMemo(
+    () =>
+      latest?.form_data
+        ? { ...latest.form_data, cp: latest.form_data.cp ?? defaultHealthData.cp }
+        : defaultHealthData,
+    [latest?.form_data],
+  );
   const [simData, setSimData] = useState(baselineData);
   const [baselineRisk, setBaselineRisk] = useState(null);
   const [simRisk, setSimRisk] = useState(null);

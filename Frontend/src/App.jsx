@@ -16,10 +16,15 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import ModelInsights from './pages/ModelInsights';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import Emergency from './pages/Emergency';
+import HomeScreening from './pages/HomeScreening';
+import Community from './pages/Community';
+import { LanguageProvider } from './i18n';
 
 function App() {
   return (
     <Router>
+      <LanguageProvider>
       <AuthProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -27,9 +32,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/emergency" element={<Emergency />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<AppShell />}>
           <Route path="/assessment" element={<Assessment />} />
+          <Route path="/home-screening" element={<HomeScreening />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/simulator" element={<Simulator />} />
           <Route path="/history" element={<History />} />
@@ -43,6 +51,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </AuthProvider>
+      </LanguageProvider>
     </Router>
   );
 }

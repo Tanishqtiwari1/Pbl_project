@@ -237,6 +237,7 @@ function Factor({ name, impact }) {
       oldpeak: "ST depression",
       age: "Age",
       sex: "Sex at birth",
+      cp: "Chest pain type",
       fbs: "Fasting sugar",
       restecg: "Resting ECG",
       exang: "Exercise angina",
