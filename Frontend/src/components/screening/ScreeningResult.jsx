@@ -1,8 +1,9 @@
 import { CircleAlert, Info, ListChecks, TrendingUp } from 'lucide-react';
 import { useT } from '../../i18n';
 import { recommendationKeys, topFactors } from '../../services/screeningModel';
+import SpecialistPrompt from '../specialists/SpecialistPrompt';
 
-export default function ScreeningResult({ result, values, offline, actions }) {
+export default function ScreeningResult({ result, values, offline, actions, showSpecialist = false }) {
   const { t } = useT();
   const factors = topFactors(result.contributions);
   const tone = result.risk_category.toLowerCase();
@@ -30,6 +31,7 @@ export default function ScreeningResult({ result, values, offline, actions }) {
         <ul className="rec-list">{recommendationKeys(values, result.risk_category).map((key) => <li key={key}><strong>{t(`${key}.title`)}</strong><span>{t(`${key}.detail`)}</span></li>)}</ul>
       </div>
     </div>
+    {showSpecialist && <SpecialistPrompt band={result.risk_category} kind="home" />}
     <p className="model-footnote"><Info size={13} /> {t('screen.disclaimer')}</p>
     {actions && <div className="form-actions">{actions}</div>}
   </section>;

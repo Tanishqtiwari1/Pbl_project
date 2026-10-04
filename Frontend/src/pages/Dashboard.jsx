@@ -12,6 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import EmptyState from "../components/common/EmptyState";
 import ActionPlan from "../components/common/ActionPlan";
 import StatCard from "../components/common/StatCard";
+import SpecialistPrompt from "../components/specialists/SpecialistPrompt";
 import RiskGauge from "../components/dashboard/RiskGauge";
 import { useAuth } from "../context/AuthContext";
 import useHistoryData from "../hooks/useHistoryData";
@@ -62,7 +63,7 @@ export default function Dashboard() {
         <div>
           <span className="eyebrow">Your personal workspace</span>
           <h1>
-            Good morning, {user.name.split(" ")[0]}{" "}
+            {greeting()}, {user.name.split(" ")[0]}{" "}
             <span className="wave">✦</span>
           </h1>
           <p>Here is your latest health picture, in one calm view.</p>
@@ -101,6 +102,7 @@ export default function Dashboard() {
           tone="purple"
         />
       </div>
+      <SpecialistPrompt band={result.risk_category} />
       <div className="dashboard-grid">
         <section className="panel risk-panel">
           <div className="panel-heading">
@@ -270,4 +272,11 @@ function Factor({ name, impact }) {
       <ChevronRight size={15} className="muted-icon" />
     </div>
   );
+}
+
+function greeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
 }

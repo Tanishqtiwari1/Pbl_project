@@ -25,6 +25,10 @@ from evaluation import age_band, calibration_report, group_report
 ML_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(ML_DIR, 'framingham.csv')
 OUTPUT_PATH = os.path.join(ML_DIR, 'screening_model.json')
+# Parameters-only copy bundled into the frontend: powers the landing-page demo and lets
+# screening work offline even before the app has fetched the model once.
+FRONTEND_COPY = os.path.join(ML_DIR, '..', '..', 'Frontend', 'src', 'data', 'screening-model.json')
+PARAMETER_FIELDS = ['features', 'medians', 'means', 'scales', 'coefficients', 'intercept', 'thresholds']
 RANDOM_STATE = 42
 
 # Framingham column -> API field name
@@ -114,6 +118,9 @@ def train():
 
     with open(OUTPUT_PATH, 'w') as f:
         json.dump(report, f, indent=2)
+    os.makedirs(os.path.dirname(FRONTEND_COPY), exist_ok=True)
+    with open(FRONTEND_COPY, 'w') as f:
+        json.dump({key: report[key] for key in PARAMETER_FIELDS}, f, indent=2)
 
     print(report['dataset'])
     print(f"5-fold CV ROC-AUC: {cv_auc.mean():.3f} ± {cv_auc.std():.3f}   held-out ROC-AUC: {test_auc:.3f}")

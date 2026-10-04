@@ -1,5 +1,5 @@
 import { NavLink, Link } from 'react-router-dom';
-import { Activity, BarChart3, ClipboardList, FileText, History, HousePlus, Lightbulb, LineChart, PanelLeftClose, Siren, Users, X } from 'lucide-react';
+import { Activity, BarChart3, ClipboardList, FileText, History, HousePlus, Lightbulb, LineChart, PanelLeftClose, Siren, Stethoscope, Users, X } from 'lucide-react';
 import { useT } from '../../i18n';
 
 const links = [
@@ -7,6 +7,7 @@ const links = [
   { to: '/home-screening', labelKey: 'nav.homeScreening', icon: HousePlus },
   { to: '/assessment', label: 'Clinical assessment', icon: ClipboardList },
   { to: '/community', labelKey: 'nav.community', icon: Users },
+  { to: '/specialists', labelKey: 'nav.specialists', icon: Stethoscope },
   { to: '/simulator', label: 'What-if lab', icon: Activity },
   { to: '/history', label: 'Health history', icon: History },
   { to: '/insights', label: 'Insights', icon: Lightbulb },

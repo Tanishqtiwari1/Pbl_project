@@ -18,6 +18,12 @@ CardioGuard is a heart-risk screening platform for **individuals and community h
 - 🇮🇳 **Hindi and English** for screening, community and emergency pages.
 - 📄 **Fill from a lab report:** photograph or upload a blood test, BP or ECG report; values are read in the browser (OCR) and shown for checking before they fill the form. The report never leaves the device.
 - 🩺 **Report for your doctor (PDF):** results, main contributing factors, trend over time, and personalised questions to ask.
+- 🗺️ **Find a specialist:** after a result, find nearby cardiology services, hospitals and clinics on an interactive map (real OpenStreetMap data, no invented doctors or ratings). Use your location or type a city, area or PIN code; filter, sort, get directions, call, and share your assessment report. Only an approximate (~1 km) location leaves the device and nothing is stored.
+
+**Experience**
+- ✨ Interactive design: live risk demo on the landing page (the real model running in the browser), animated risk gauges and counters, scroll reveals, card spotlight effects, page transitions
+- 🌗 Light, dark and system themes; ⌘K / Ctrl+K command palette to jump anywhere
+- ♿ Keyboard focus styles, screen-reader labels, and reduced-motion support throughout
 
 **Clinical tools**
 - 🩺 Clinical risk prediction (XGBoost, 10 clinical inputs)
@@ -118,7 +124,7 @@ python train_model.py       # grid search + evaluation -> model.pkl, scaler.pkl,
 
 ```bash
 cd Backend && pip install -r requirements-dev.txt && python -m pytest tests     # API, offline sync, privacy
-node --test Frontend/src/services/reportParser.test.mjs                         # lab report reading
+node --test Frontend/src/services/*.test.mjs                                    # lab report reading, specialist search
 ```
 
 **Note:** everyone in this dataset was referred for angiography, so "no chest pain" (asymptomatic) patients in it had a high disease rate. The model learns this, so a symptom-free person can score higher than someone with atypical chest pain. Treat the output as a screening estimate, not a diagnosis.
@@ -145,6 +151,7 @@ CardioGuard Dashboard
 - Backend: Python, FastAPI
 - Machine Learning: XGBoost, Scikit-learn (logistic regression)
 - In-browser OCR and PDF: Tesseract.js, PDF.js, jsPDF
+- Maps and places: Leaflet, OpenStreetMap (Overpass API for providers, Nominatim for place search)
 - Data Processing: Pandas, NumPy
 - Database: SQLite
 - Frontend Deployment: GitHub Pages

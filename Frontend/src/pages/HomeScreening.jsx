@@ -49,7 +49,7 @@ export default function HomeScreening() {
     <div className="page-heading compact-heading"><div><span className="eyebrow">{t('screen.eyebrow')}</span><h1>{t('screen.title')}</h1><p>{t('screen.text')}</p></div></div>
     {stage === 'emergency' && <EmergencyCheck onClear={() => setStage('form')} />}
     {stage === 'form' && <section className="panel">{error && <div className="form-error">{String(error)}</div>}<ScreeningForm initial={values} onSubmit={submit} /></section>}
-    {stage === 'result' && result && <ScreeningResult result={result} values={values} offline={offline} actions={<>
+    {stage === 'result' && result && <ScreeningResult result={result} values={values} offline={offline} showSpecialist actions={<>
       <button type="button" className="btn btn-ghost" onClick={() => setStage('form')}><RotateCcw size={16} /> {t('screen.again')}</button>
       {!offline && latestSaved && <button type="button" className="btn btn-primary" onClick={() => downloadDoctorReport({ userName: user?.name, screening: latestSaved })}><Download size={16} /> {t('screen.report')}</button>}
     </>} />}

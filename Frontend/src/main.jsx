@@ -4,6 +4,12 @@ import App from './App.jsx';
 import './index.css'; 
 import './auth.css';
 import './features.css';
+import './theme-colors.css';
+import './theme.css';
+import './specialists.css';
+import { setupInteractions } from './ui/interactions';
+
+setupInteractions();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

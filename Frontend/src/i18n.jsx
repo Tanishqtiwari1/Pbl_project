@@ -9,6 +9,7 @@ const strings = {
     'nav.homeScreening': 'Home screening',
     'nav.community': 'Community screening',
     'nav.emergency': 'Emergency check',
+    'nav.specialists': 'Find a specialist',
 
     'common.yes': 'Yes',
     'common.no': 'No',
@@ -160,6 +161,7 @@ const strings = {
     'nav.homeScreening': 'घर पर जाँच',
     'nav.community': 'सामुदायिक जाँच',
     'nav.emergency': 'आपातकालीन जाँच',
+    'nav.specialists': 'विशेषज्ञ खोजें',
 
     'common.yes': 'हाँ',
     'common.no': 'नहीं',

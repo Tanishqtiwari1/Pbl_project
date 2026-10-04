@@ -158,6 +158,7 @@ export async function downloadDoctorReport({ userName, assessment, assessmentFac
   w.bullets(doctorQuestions(assessment, screening));
 
   w.space();
+  w.paragraph('This is an AI-generated educational assessment and is NOT a medical diagnosis. ', 9, INK);
   w.paragraph('These are statistical estimates from machine learning models, not a diagnosis. The clinical model was trained on 918 patients '
     + 'from the UCI Heart Disease database (82% accuracy on held-out patients). The home screening model was trained on the Framingham '
     + 'Heart Study (ROC-AUC 0.71) and may underestimate risk for South Asian people.', 8, MUTED);

@@ -1,5 +1,6 @@
 // Runs the home screening model in the browser, so screening works offline.
 // Mirrors Backend/app/screening_model.py: same JSON parameters, same calculation.
+import bundledModel from '../data/screening-model.json';
 import { getScreeningModel } from './api';
 
 const MODEL_KEY = 'cardioguard_screening_model';
@@ -19,10 +20,9 @@ export async function loadScreeningModel() {
     const model = await getScreeningModel();
     try { localStorage.setItem(MODEL_KEY, JSON.stringify(model)); } catch { /* storage full or blocked */ }
     return model;
-  } catch (error) {
-    const cached = cachedModel();
-    if (cached) return cached;
-    throw error;
+  } catch {
+    // Offline: the last downloaded copy, else the copy built into the app.
+    return cachedModel() || bundledModel;
   }
 }
 

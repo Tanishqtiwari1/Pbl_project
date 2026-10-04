@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import AppShell from './components/layout/AppShell';
@@ -20,11 +20,15 @@ import Emergency from './pages/Emergency';
 import HomeScreening from './pages/HomeScreening';
 import Community from './pages/Community';
 import { LanguageProvider } from './i18n';
+// The map library is large, so this page is downloaded only when opened.
+const Specialists = lazy(() => import('./pages/Specialists'));
+import { ToastProvider } from './ui/toast';
 
 function App() {
   return (
     <Router>
       <LanguageProvider>
+      <ToastProvider>
       <AuthProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -38,6 +42,7 @@ function App() {
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/home-screening" element={<HomeScreening />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/specialists" element={<Suspense fallback={<div className="auth-loading"><div className="loading-spinner" /><span>Loading the map…</span></div>}><Specialists /></Suspense>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/simulator" element={<Simulator />} />
           <Route path="/history" element={<History />} />
@@ -51,6 +56,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </AuthProvider>
+      </ToastProvider>
       </LanguageProvider>
     </Router>
   );
